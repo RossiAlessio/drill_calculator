@@ -49,8 +49,6 @@ def drills_page(drill_data=None):
         </style>
     """, unsafe_allow_html=True)
 
-    st.markdown("<h1 style='text-align: center; color: black;'>Drill library</h1>", unsafe_allow_html=True)
-
     if drill_data is not None:
 
         lst_drills_all = list(drill_data.keys())
