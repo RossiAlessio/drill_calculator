@@ -1,0 +1,11 @@
+[server]
+headless = true
+fileWatcherType = "poll"
+runOnSave = true
+
+[theme]
+base = "light"
+primaryColor = "#0095D8"
+
+[browser]
+layout = "wide"
