@@ -53,18 +53,18 @@ def drills_page(drill_data=None,
 
     if drill_data is not None:
 
-        lst_teams = [x for x in list(drill_data.keys()) if str(x)!="none"]
+        lst_teams = ['first team', 'reserve n3', 'pro2', 'u19', 'u17', 'u15 prefo', 'u14 prefo']#[x for x in list(drill_data.keys()) if str(x)!="none"]
         select_team = st.selectbox("Select team",lst_teams)
 
-        lst_players = ['TEAM']+[x for x in list(drill_data_players[select_team].keys()) if 'test' not in x.lower()]
+        lst_players = ['TEAM']+sorted([x for x in list(drill_data_players[select_team].keys()) if 'test' not in x.lower()])
         select_player = st.selectbox("Select player",lst_players)
 
         if select_player == 'TEAM':
             drill_data_ = drill_data[select_team]
-            lst_drills_all = list(drill_data_.keys())
+            lst_drills_all = sorted(list(drill_data_.keys()))
         else:
             drill_data_ = drill_data_players[select_team][select_player]
-            lst_drills_all = list(drill_data_.keys())
+            lst_drills_all = sorted(list(drill_data_.keys()))
 
         def drill_comparator():
 
