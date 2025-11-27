@@ -80,8 +80,12 @@ if st.session_state.authenticated == True:
 
     with open('data/drill_pro2.json', 'r') as f:
         drill_data = json.load(f)
+
+    with open('data/drill_pro2_players.json', 'r') as f:
+        drill_data_players = json.load(f)
     
-    drills_page(drill_data=drill_data)
+    drills_page(drill_data=drill_data,
+                drill_data_players=drill_data_players)
 
 else:
 

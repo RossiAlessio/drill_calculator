@@ -3,7 +3,9 @@ import pandas as pd
 import numpy as np
 from drill_plots import drills_comp_radar_chart
 
-def drills_page(drill_data=None):
+def drills_page(drill_data=None,
+                drill_data_players=None):
+    
 
     rename_columns = {'total_time_min':'Exposure (min)',
                   'total_distance':'Total Distance (m)',
@@ -51,7 +53,18 @@ def drills_page(drill_data=None):
 
     if drill_data is not None:
 
-        lst_drills_all = list(drill_data.keys())
+        lst_teams = [x for x in list(drill_data.keys()) if str(x)!="none"]
+        select_team = st.selectbox("Select team",lst_teams)
+
+        lst_players = ['TEAM']+[x for x in list(drill_data_players[select_team].keys()) if 'test' not in x.lower()]
+        select_player = st.selectbox("Select player",lst_players)
+
+        if select_player == 'TEAM':
+            drill_data_ = drill_data[select_team]
+            lst_drills_all = list(drill_data_.keys())
+        else:
+            drill_data_ = drill_data_players[select_team][select_player]
+            lst_drills_all = list(drill_data_.keys())
 
         def drill_comparator():
 
@@ -60,7 +73,7 @@ def drills_page(drill_data=None):
             if len(multiselect_drill)>0:
                 val_sel = pd.DataFrame()
                 for d in multiselect_drill:
-                    val_sel = pd.concat([val_sel,pd.DataFrame(drill_data[d],index=[d])])
+                    val_sel = pd.concat([val_sel,pd.DataFrame(drill_data_[d],index=[d])])
 
                 rel_val = val_sel[[x for x in list(val_sel) if '_min' in x]]
                 abs_val = val_sel[[x for x in list(val_sel) if '_min' not in x]]
@@ -69,7 +82,7 @@ def drills_page(drill_data=None):
                 del rel_val['Exposure (min)']
                 abs_val.columns = [rename_columns.get(x,x) for x in abs_val.columns]
 
-                figAbs,figRel,_df_ = drills_comp_radar_chart(drill_data,multiselect_drill,rename_columns)
+                figAbs,figRel,_df_ = drills_comp_radar_chart(drill_data_,multiselect_drill,rename_columns)
 
                 col1, col2 = st.columns(2)
                 with col1:
@@ -149,7 +162,7 @@ def drills_page(drill_data=None):
 
 
                 if drill_sel != ' ':
-                    val_sel = pd.DataFrame(drill_data[drill_sel],index=[drill_sel])
+                    val_sel = pd.DataFrame(drill_data_[drill_sel],index=[drill_sel])
                     val_rel = val_sel[[x for x in list(val_sel) if '_min' in x]]*time_drill
                     val_rel['duration'] = time_drill
 
