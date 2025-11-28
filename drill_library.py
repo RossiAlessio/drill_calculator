@@ -53,7 +53,8 @@ def drills_page(drill_data=None,
 
     if drill_data is not None:
 
-        lst_teams = ['first team', 'reserve n3', 'pro2', 'u19', 'u17', 'u15 prefo', 'u14 prefo']#[x for x in list(drill_data.keys()) if str(x)!="none"]
+        lst_teams = ['first team', 'pro2', 'u19', 'u17', 'u15']#[x for x in list(drill_data.keys()) if str(x)!="none"]
+        
         select_team = st.selectbox("Select team",lst_teams)
 
         lst_players = ['TEAM']+sorted([x for x in list(drill_data_players[select_team].keys()) if 'test' not in x.lower()])
